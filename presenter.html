@@ -168,6 +168,13 @@ select.btn{padding:7px 8px}
 .jb-qr{position:absolute;right:56px;bottom:30px;width:150px;height:150px;border-radius:14px;overflow:hidden;background:#fff}
 .jb-qr svg{width:100%;height:100%;display:block}
 .empty{color:var(--muted);font-size:40px;text-align:center}
+.imgfull{position:absolute;inset:0}
+.imgfull img{width:100%;height:100%;display:block}
+.inner.imgt{padding:44px 64px 56px}
+.inner.imgt .s-title{margin-bottom:24px}
+.imgbox{flex:1;min-height:0;display:flex}
+.imgbox img{width:100%;height:100%;border-radius:20px}
+.imgph{flex:1;display:grid;place-items:center;border:4px dashed var(--line);border-radius:20px;color:var(--muted);font-size:40px;text-align:center;width:100%}
 
 /* ---------- presentation stage ---------- */
 #stage{position:fixed;inset:0;background:#000;z-index:100}
@@ -274,6 +281,7 @@ const TYPES = {
   scale: { name: 'Scales', icon: '⇆', desc: 'Rate statements on a range', interactive: true },
   rank: { name: 'Ranking', icon: '⇅', desc: 'Audience orders the options', interactive: true },
   qa: { name: 'Q&A', icon: '?', desc: 'Questions with upvotes', interactive: true },
+  image: { name: 'Image', icon: '▨', desc: 'Full-screen picture, optional title' },
   leaderboard: { name: 'Leaderboard', icon: '♛', desc: 'Top quiz scores' }
 };
 const opt = (text, correct) => correct ? { text, correct: true } : { text };
@@ -289,6 +297,7 @@ function newSlide(type) {
     case 'scale': return { ...b, title: 'How much do you agree?', statements: ['Statement one', 'Statement two', 'Statement three'], min: 1, max: 5, minLabel: 'Strongly disagree', maxLabel: 'Strongly agree', hideUntilReveal: false };
     case 'rank': return { ...b, title: 'Rank these from best to worst', options: [opt('Item one'), opt('Item two'), opt('Item three')], hideUntilReveal: false };
     case 'qa': return { ...b, title: 'Ask me anything' };
+    case 'image': return { ...b, title: 'Image title', image: '', showTitle: true, fit: 'contain' };
     case 'leaderboard': return { ...b, title: 'Leaderboard', top: 8 };
   }
 }
@@ -468,6 +477,11 @@ function slideBody(s, ctx) {
       const lines = String(s.body || '').split('\n').map(x => x.trim()).filter(Boolean);
       return `<div class="inner">${titleHTML(s)}<div class="cols"><div class="l"><ul class="bullets">${lines.map(l => `<li>${esc(l)}</li>`).join('')}</ul></div>${s.image ? `<img src="${esc(s.image)}" alt="">` : ''}</div></div>`;
     }
+    case 'image': {
+      const img = s.image ? `<img src="${esc(s.image)}" alt="" style="object-fit:${s.fit === 'cover' ? 'cover' : 'contain'}">` : `<div class="imgph">Add an image in the panel on the right</div>`;
+      if (s.showTitle === false) return `<div class="imgfull">${img}</div>`;
+      return `<div class="inner imgt">${titleHTML(s)}<div class="imgbox">${img}</div></div>`;
+    }
     case 'mc': {
       let body;
       if (ctx.hideNow) body = hiddenBox(a.resp);
@@ -499,6 +513,7 @@ function slideBody(s, ctx) {
   return '';
 }
 function footerHTML(s, ctx) {
+  if (s.type === 'image') return '';
   const wanted = ctx.mode === 'thumb' ? false : (ctx.isLive || (ctx.mode === 'edit' && isInteractive(s)));
   if (!wanted || s.type === 'leaderboard' && !ctx.isLive) return '';
   const code = live ? live.code : '······';
@@ -562,10 +577,14 @@ function optsEditor(s, correct, label) {
   const lim = s.type === 'quiz' ? 6 : 8;
   return `<div class="f"><span>${label || 'Options'}</span>${s.options.map((o, i) => `<div class="optrow">${correct ? `<input type="checkbox" title="Correct answer" data-opt="${i}" data-f="correct" ${o.correct ? 'checked' : ''}>` : ''}<input data-opt="${i}" data-f="text" value="${esc(o.text)}"><button class="x" data-act="delOpt" data-i="${i}" title="Remove">✕</button></div>`).join('')}${s.options.length < lim ? `<button class="btn ghost" data-act="addOpt">+ Add option</button>` : ''}${correct ? `<div class="hint" style="margin-top:8px">Tick the box beside each correct answer.</div>` : ''}</div>`;
 }
+function imgFields(s) {
+  return lab('Image address (URL)', `<input data-k="image" value="${s.image && s.image.startsWith('data:') ? '' : esc(s.image || '')}" placeholder="https://…">`)
+    + `<div class="f"><button class="btn" data-act="upload">Upload an image…</button> ${s.image ? `<button class="btn danger" data-act="rmimg">Remove</button>` : ''}<input type="file" id="imgIn" accept="image/*" hidden></div>`;
+}
 function renderInspector() {
   const s = deck.slides[sel], T = TYPES[s.type];
   let h = `<div class="ins-h"><span class="ti">${T.icon}</span>${T.name}</div>`;
-  const tl = s.type === 'title' ? 'Title' : (s.type === 'content' || s.type === 'leaderboard') ? 'Heading' : 'Question or prompt';
+  const tl = s.type === 'image' ? 'Title' : s.type === 'title' ? 'Title' : (s.type === 'content' || s.type === 'leaderboard') ? 'Heading' : 'Question or prompt';
   h += lab(tl, `<textarea data-k="title" rows="2">${esc(s.title)}</textarea>`);
   switch (s.type) {
     case 'title': h += lab('Subtitle', `<input data-k="subtitle" value="${esc(s.subtitle || '')}">`); break;
@@ -573,6 +592,11 @@ function renderInspector() {
       h += lab('Bullet points (one per line)', `<textarea data-k="body" rows="6">${esc(s.body || '')}</textarea>`);
       h += lab('Image address (URL)', `<input data-k="image" value="${s.image && s.image.startsWith('data:') ? '' : esc(s.image || '')}" placeholder="https://…">`);
       h += `<div class="f"><button class="btn" data-act="upload">Upload an image…</button> ${s.image ? `<button class="btn danger" data-act="rmimg">Remove</button>` : ''}<input type="file" id="imgIn" accept="image/*" hidden></div>`; break;
+    case 'image':
+      h += chk('showTitle', 'Show the title at the top', s.showTitle !== false, true);
+      h += imgFields(s);
+      h += lab('Picture fit', `<select data-k="fit"><option value="contain" ${s.fit !== 'cover' ? 'selected' : ''}>Fit whole picture</option><option value="cover" ${s.fit === 'cover' ? 'selected' : ''}>Fill the screen (may crop)</option></select>`);
+      break;
     case 'mc':
       h += optsEditor(s, false);
       h += lab('Chart style', `<select data-k="chart"><option value="bars" ${s.chart === 'bars' ? 'selected' : ''}>Horizontal bars</option><option value="columns" ${s.chart === 'columns' ? 'selected' : ''}>Columns</option><option value="donut" ${s.chart === 'donut' ? 'selected' : ''}>Donut</option></select>`);
