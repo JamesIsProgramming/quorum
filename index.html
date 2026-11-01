@@ -76,9 +76,12 @@ input[type=range]{padding:0;height:36px;background:none;border:0;accent-color:va
 .spin{width:34px;height:34px;border-radius:50%;border:4px solid #26305f;border-top-color:var(--accent);animation:sp 1s linear infinite;margin:18px auto}
 @keyframes sp{to{transform:rotate(360deg)}}
 [hidden]{display:none!important}
+#updBar{position:fixed;top:max(10px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);z-index:50;display:flex;align-items:center;gap:12px;background:#1d2a55;border:1px solid var(--accent);padding:8px 8px 8px 16px;border-radius:99px;box-shadow:0 8px 30px rgba(0,0,0,.5);font-weight:600;font-size:14px;white-space:nowrap}
+#updBar button{background:var(--accent);color:#06122e;border:0;border-radius:99px;padding:8px 14px;font:inherit;font-weight:700}
 </style>
 </head>
 <body>
+<div id="updBar" hidden><span>A new version is available.</span><button id="updBtn">Reload</button></div>
 <div id="app">
   <header>
     <span class="logo">◆ Quorum</span><span class="sp"></span>
@@ -108,6 +111,22 @@ input[type=range]{padding:0;height:36px;background:none;border:0;accent-color:va
 </div>
 
 <script type="module">
+// Tell people when a new version has been published
+(() => {
+  const SELF = location.pathname + location.search;
+  const hash = t => { let x = 2166136261; for (let i = 0; i < t.length; i++) { x ^= t.charCodeAt(i); x = Math.imul(x, 16777619); } return x >>> 0; };
+  const grab = async mode => { const r = await fetch(SELF, { cache: mode }); if (!r.ok) throw new Error(r.status); return hash(await r.text()); };
+  let base = null, shown = false;
+  const check = async () => {
+    if (shown) return;
+    try { if (base === null) base = await grab('force-cache'); const now = await grab('no-store'); if (now !== base) { shown = true; const b = document.getElementById('updBar'); if (b) b.hidden = false; } } catch (e) { }
+  };
+  check(); setInterval(check, 60000);
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') check(); });
+  window.addEventListener('focus', check);
+  document.getElementById('updBtn')?.addEventListener('click', () => location.reload());
+})();
+
 let cfgMod = null;
 try { cfgMod = await import('./firebase-config.js'); } catch (e) { /* handled below */ }
 const CFG = cfgMod?.firebaseConfig || {};

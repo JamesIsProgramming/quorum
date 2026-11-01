@@ -83,30 +83,34 @@ select.btn{padding:7px 8px}
 .slide[data-theme=sunrise]{--bg:#fff4e6;--bg2:#ffc78a;--fg:#3b1d0e;--muted:#8a5a3c;--accent:#e8590c;--card:rgba(120,50,0,.07);--line:rgba(120,50,0,.2)}
 .slide[data-theme=ocean]{--bg:#031d2c;--bg2:#0a6e8f;--fg:#eaf9ff;--muted:#8fc3d9;--accent:#2dd4bf}
 .slide[data-theme=mono]{--bg:#0c0c0c;--bg2:#2a2a2a;--fg:#fafafa;--muted:#9a9a9a;--accent:#ffffff}
-.slide .inner{position:absolute;inset:0;padding:68px 96px 130px;display:flex;flex-direction:column}
+.slide .inner{position:absolute;inset:0;padding:64px 96px 90px;display:flex;flex-direction:column}
+.slide.hasjoin .inner{padding-bottom:190px}
+.fitbox{position:relative;flex:1;min-height:0;overflow:hidden}
+.fitin{position:absolute;left:0;top:0;width:100%;transform-origin:0 0}
 .slide .inner.center{align-items:center;justify-content:center;text-align:center}
-.s-title{font-size:58px;font-weight:800;line-height:1.1;letter-spacing:-.025em;margin:0 0 34px;max-width:1380px}
-.s-hero{font-size:118px;font-weight:800;line-height:1.02;letter-spacing:-.04em;margin:0 0 28px;max-width:1300px}
-.s-sub{font-size:44px;color:var(--muted);font-weight:500;max-width:1100px}
+.s-title{font-size:58px;font-weight:800;line-height:1.1;letter-spacing:-.025em;margin:0 0 34px;max-width:1380px;overflow-wrap:anywhere}
+.s-hero{font-size:118px;font-weight:800;line-height:1.02;letter-spacing:-.04em;margin:0 0 28px;max-width:1300px;overflow-wrap:anywhere}
+.s-sub{font-size:44px;line-height:1.25;color:var(--muted);font-weight:500;max-width:1100px;overflow-wrap:anywhere}
 .s-body{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center}
 .bullets{list-style:none;padding:0;margin:0;font-size:46px;line-height:1.3;font-weight:500}
 .bullets li{position:relative;padding-left:46px;margin-bottom:20px}
 .bullets li:before{content:"";position:absolute;left:0;top:.5em;width:18px;height:18px;border-radius:5px;background:var(--accent)}
-.cols{display:flex;gap:60px;align-items:center;flex:1;min-height:0}
-.cols .l{flex:1}
+.cols{display:flex;gap:60px;align-items:center}
+.cols .l{flex:1;min-width:0}
+.bullets li{overflow-wrap:anywhere}
 .cols img{max-width:640px;max-height:560px;border-radius:20px;object-fit:contain}
-.bar-row{display:flex;align-items:center;gap:24px;margin-bottom:22px}
-.bar-label{width:420px;font-size:34px;font-weight:600;line-height:1.15;display:flex;gap:14px;align-items:center}
-.bar-label .dot{width:20px;height:20px;border-radius:6px;flex:none}
-.bar-track{flex:1;height:58px;background:var(--card);border-radius:14px;overflow:hidden}
+.bar-row{display:flex;align-items:center;gap:24px;margin-bottom:calc(22px*var(--k,1))}
+.bar-label{width:28%;flex:none;font-size:calc(34px*var(--k,1));font-weight:600;line-height:1.15;display:flex;gap:14px;align-items:center;overflow-wrap:anywhere;min-width:0}
+.bar-label .dot{width:calc(20px*var(--k,1));height:calc(20px*var(--k,1));border-radius:6px;flex:none}
+.bar-track{flex:1;height:calc(58px*var(--k,1));background:var(--card);border-radius:14px;overflow:hidden}
 .bar-fill{height:100%;border-radius:14px;min-width:0;transform-origin:left;transition:width .5s}
-.bar-val{width:190px;font-size:34px;font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
-.bar-val small{color:var(--muted);font-weight:500;font-size:26px}
+.bar-val{width:190px;flex:none;font-size:calc(34px*var(--k,1));font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+.bar-val small{color:var(--muted);font-weight:500;font-size:calc(26px*var(--k,1))}
 .bar-row.wrong{opacity:.35}
 .bar-row.right .bar-label:after{content:"✓";color:#2ecc9a;font-size:44px;font-weight:800}
 .anim .bar-fill{animation:growx .9s cubic-bezier(.2,.8,.2,1)}
 @keyframes growx{from{transform:scaleX(0)}}
-.cols-chart{display:flex;align-items:flex-end;gap:28px;height:560px;padding-bottom:0}
+.cols-chart{display:flex;align-items:flex-end;gap:28px;height:500px;padding-bottom:0}
 .col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;min-width:0}
 .col .cv{font-size:38px;font-weight:800;margin-bottom:10px}
 .col .cf{width:100%;border-radius:16px 16px 0 0;transform-origin:bottom;transition:height .5s}
@@ -114,32 +118,34 @@ select.btn{padding:7px 8px}
 .anim .col .cf{animation:growy .9s cubic-bezier(.2,.8,.2,1)}
 @keyframes growy{from{transform:scaleY(0)}}
 .donut-wrap{display:flex;gap:90px;align-items:center;justify-content:center}
-.donut{width:480px;height:480px;border-radius:50%;position:relative}
+.donut{width:460px;height:460px;flex:none;border-radius:50%;position:relative}
 .donut:after{content:"";position:absolute;inset:100px;border-radius:50%;background:var(--bg)}
 .donut .c{position:absolute;inset:0;display:grid;place-items:center;z-index:2;font-size:70px;font-weight:800}
-.legend .bar-label{width:auto;margin-bottom:16px}
+.legend{min-width:0}
+.legend .bar-label b{flex:none;margin-left:14px;white-space:nowrap}
+.legend .bar-label{width:auto;max-width:720px;margin-bottom:16px}
 .legend b{margin-left:14px}
 .hidden-box{text-align:center}
 .hidden-box .big{font-size:240px;font-weight:800;line-height:1;letter-spacing:-.05em}
 .hidden-box .t{font-size:42px;color:var(--muted)}
 .hidden-box .h{margin-top:30px;font-size:28px;color:var(--muted);opacity:.8}
-.cloud{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;align-content:center;gap:6px 34px;flex:1;line-height:1;overflow:hidden}
+.cloud{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;align-content:center;gap:6px 34px;line-height:1}
 .cloud span{font-weight:800;letter-spacing:-.02em;white-space:nowrap}
-.cards{display:grid;gap:22px;flex:1;align-content:start;overflow:hidden}
+.cards{display:grid;gap:22px;align-content:start}
 .card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px 28px;font-weight:600;line-height:1.25;position:relative;overflow-wrap:anywhere}
 .card .rm,.qa-i .rm{position:absolute;right:10px;top:8px;border:0;background:rgba(0,0,0,.55);color:#fff;width:34px;height:34px;border-radius:50%;font-size:18px;display:none}
 .card:hover .rm,.qa-i:hover .rm{display:block}
-.sc-row{display:flex;align-items:center;gap:40px;margin-bottom:26px}
-.sc-row .st{width:520px;font-size:32px;font-weight:600;line-height:1.2}
-.sc-row .tr{flex:1;position:relative}
-.hist{display:flex;gap:10px;align-items:flex-end;height:96px}
+.sc-row{display:flex;align-items:center;gap:40px;margin-bottom:calc(20px*var(--k,1))}
+.sc-row .st{width:32%;flex:none;font-size:calc(32px*var(--k,1));font-weight:600;line-height:1.2;overflow-wrap:anywhere}
+.sc-row .tr{flex:1;position:relative;padding-top:calc(42px*var(--k,1))}
+.hist{display:flex;gap:10px;align-items:flex-end;height:calc(80px*var(--k,1))}
 .hist i{flex:1;background:var(--accent);opacity:.55;border-radius:8px 8px 0 0;min-height:4px}
 .ticks{display:flex;gap:10px;margin-top:6px}
 .ticks span{flex:1;text-align:center;color:var(--muted);font-size:22px}
-.avg{position:absolute;top:-6px;width:0;height:0;transform:translateX(-50%)}
-.avg b{position:absolute;bottom:0;left:50%;transform:translateX(-50%);background:var(--fg);color:var(--bg);border-radius:12px;padding:2px 14px;font-size:34px;font-weight:800}
-.sc-ends{display:flex;justify-content:space-between;color:var(--muted);font-size:24px;margin:-8px 0 18px 560px}
-.qa-list{display:grid;gap:18px;flex:1;align-content:start;overflow:hidden}
+.avg{position:absolute;top:calc(36px*var(--k,1));width:0;height:0;transform:translateX(-50%)}
+.avg b{position:absolute;bottom:0;left:50%;transform:translateX(-50%);background:var(--fg);color:var(--bg);border-radius:12px;padding:2px 14px;font-size:calc(32px*var(--k,1));font-weight:800}
+.sc-ends{display:flex;justify-content:space-between;color:var(--muted);font-size:24px;margin:-8px 0 18px 32%}
+.qa-list{display:grid;gap:18px;align-content:start}
 .qa-i{display:flex;align-items:center;gap:26px;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:20px 28px;font-size:36px;font-weight:600;line-height:1.2;position:relative;cursor:pointer}
 .qa-i .n{min-width:110px;text-align:center;background:var(--accent);color:var(--bg);border-radius:16px;padding:8px 14px;font-weight:800;font-size:34px}
 .qa-i.done{opacity:.4;text-decoration:line-through}
@@ -150,7 +156,7 @@ select.btn{padding:7px 8px}
 .lb-row .tr{flex:1;height:50px;background:var(--card);border-radius:14px;overflow:hidden}
 .lb-row .tr i{display:block;height:100%;border-radius:14px;background:var(--accent)}
 .lb-row .sv{width:150px;text-align:right;font-size:38px;font-weight:800;font-variant-numeric:tabular-nums}
-.tiles-q{display:grid;grid-template-columns:1fr 1fr;gap:24px;flex:1;min-height:0;align-content:center}
+.tiles-q{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-content:center}
 .tq{display:flex;align-items:center;gap:26px;border-radius:22px;padding:30px 34px;font-size:42px;font-weight:700;color:#fff;min-height:150px;text-shadow:0 2px 4px rgba(0,0,0,.25)}
 .tq .sh{font-size:56px;width:70px;text-align:center}
 .tq.ok{outline:8px solid #2ecc9a;outline-offset:-8px}
@@ -161,7 +167,7 @@ select.btn{padding:7px 8px}
 .qcount{text-align:center;font-size:24px;color:var(--muted)}
 .qcount b{display:block;font-size:58px;color:var(--fg);line-height:1}
 .slide .deco{position:absolute;right:-140px;bottom:-200px;width:620px;height:620px;border-radius:50%;background:var(--accent);opacity:.1;filter:blur(2px)}
-.joinbar{position:absolute;left:96px;bottom:44px;display:flex;gap:24px;align-items:center;font-size:30px;color:var(--muted);font-weight:500}
+.joinbar{position:absolute;left:96px;bottom:44px;white-space:nowrap;display:flex;gap:24px;align-items:center;font-size:30px;color:var(--muted);font-weight:500}
 .joinbar b{color:var(--fg);font-weight:800}
 .joinbar .code{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:6px 18px;letter-spacing:.14em}
 .joinbar .stat{font-size:26px}
@@ -194,6 +200,21 @@ select.btn{padding:7px 8px}
 #joinOv .t2{font-size:min(4.2vw,56px);font-weight:700;margin-bottom:28px;word-break:break-all}
 #joinOv .code{font-size:min(11vw,170px);font-weight:800;letter-spacing:.12em;line-height:1}
 #joinOv .who{margin-top:30px;color:#9aa5c8;font-size:min(2.2vw,26px);max-width:760px;line-height:1.5;max-height:22vh;overflow:hidden}
+#updBar{position:fixed;top:10px;left:50%;transform:translateX(-50%);z-index:300;display:flex;align-items:center;gap:12px;background:#1d2a55;border:1px solid var(--ui-accent);color:#fff;padding:8px 8px 8px 16px;border-radius:99px;box-shadow:0 8px 30px rgba(0,0,0,.5);font-weight:600}
+#updBar button{background:var(--ui-accent);color:#06122e;border:0;border-radius:99px;padding:6px 14px;font-weight:700}
+#stage:not([hidden]) ~ #updBar{display:none}
+#printRoot{position:fixed;left:-20000px;top:0;width:1600px}
+.pslide{position:relative;width:1600px;height:900px;overflow:hidden;break-after:page;page-break-after:always;background:#000}
+.pslide:last-child{break-after:auto;page-break-after:auto}
+.pslide .slide{left:0;top:0;transform:none}
+@media print{
+  @page{size:1600px 900px;margin:0}
+  html,body{height:auto!important;overflow:visible!important;background:#000}
+  #app,#stage,#joinOv,#toast,#updBar,.pop{display:none!important}
+  #printRoot{position:static;left:auto;top:auto;width:1600px;margin:0;padding:0}
+  .pslide{display:block;overflow:hidden}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
 </style>
 </head>
 <body>
@@ -209,6 +230,7 @@ select.btn{padding:7px 8px}
     <button class="btn" id="btnNew">New</button>
     <button class="btn" id="btnImport">Import</button>
     <button class="btn" id="btnExport">Export</button>
+    <button class="btn" id="btnPdf">Export PDF</button>
     <input type="file" id="fileIn" accept=".json,application/json" hidden>
     <span id="liveBadge" hidden title="Click for the join screen"><i></i><span id="liveTxt"></span></span>
     <button class="btn" id="btnLive">Go live</button>
@@ -245,6 +267,7 @@ select.btn{padding:7px 8px}
 </div>
 <div id="joinOv" hidden></div>
 <div id="toast" hidden></div>
+<div id="updBar" hidden><span>A new version is available.</span><button id="updBtn">Reload</button></div>
 
 <script type="module">
 /* =====================================================================
@@ -392,6 +415,7 @@ function demoData(s) {
   const R = rng(hash(s.id)), users = {}, votes = {}, N = 22;
   const put = (u, rid, v) => { (users[u] ??= {})[rid] = { v, t: 1 }; };
   if (s.type === 'mc') for (let i = 0; i < N; i++) put('u' + i, 'a', [Math.floor(Math.pow(R(), 1.7) * s.options.length)]);
+  else if (s.type === 'quiz') { const ok = Math.max(0, s.options.findIndex(o => o.correct)); for (let i = 0; i < N; i++) put('u' + i, 'a', R() < .6 ? ok : Math.floor(R() * s.options.length)); }
   else if (s.type === 'cloud') { const W = ['teamwork', 'curious', 'coffee', 'learning', 'robots', 'future', 'focus', 'creative', 'energy', 'science', 'build', 'explore', 'fun']; for (let i = 0; i < N; i++) put('u' + i, rid8(), W[Math.floor(Math.pow(R(), 2) * W.length)]); }
   else if (s.type === 'open') { const T = ['Clear and well paced', 'More hands-on examples please', 'Loved the live demo', 'Could we revisit the second part?', 'Great energy today', 'Really practical', 'A bit fast at the start', 'Would like the slides afterwards']; for (let i = 0; i < 9; i++) put('u' + i, rid8(), T[i % T.length]); }
   else if (s.type === 'scale') { const mn = +s.min || 1, mx = +s.max || 5; for (let i = 0; i < N; i++) put('u' + i, 'a', (s.statements || []).map((_, k) => clamp(Math.round(mn + (mx - mn) * (0.35 + 0.5 * R() + k * 0.05)), mn, mx))); }
@@ -403,15 +427,17 @@ const demoTotals = () => DEMO_NAMES.slice(0, 10).map((name, i) => ({ uid: 'd' + 
 
 /* ---------------- slide rendering (1600x900 logical canvas) ---------------- */
 function resultsVisible(s) { return s.hideUntilReveal ? revealedSet.has(s.id) : !hiddenSet.has(s.id); }
-function ctxFor(s, mode) {
-  const isLive = !!live && live.slideId === s.id && mode !== 'thumb';
+function ctxFor(s, mode, demoArg) {
+  const isLive = !!live && live.slideId === s.id && mode !== 'thumb' && mode !== 'pdf';
   let data = { responses: {}, votes: {} }, totals = [], hideNow = false, phase = null;
+  const demo = mode === 'pdf' ? !!demoArg : ((mode === 'edit' || mode === 'thumb') && demoOn);
   if (isLive) { data = { responses: cur.responses, votes: cur.votes }; totals = totalsList(); hideNow = !resultsVisible(s); phase = live.phase; }
-  else if (mode === 'edit' && demoOn) { data = demoData(s); totals = demoTotals(); }
-  return { mode, data, totals, isLive, hideNow, phase, anim: mode === 'present' && animNext, count: Object.keys(data.responses || {}).length, joined: Object.keys(participants).length };
+  else if (demo) { data = demoData(s); totals = demoTotals(); }
+  return { mode, demo, data, totals, isLive, hideNow, phase, anim: mode === 'present' && animNext, count: Object.keys(data.responses || {}).length, joined: Object.keys(participants).length };
 }
 function hiddenBox(n) { return `<div class="hidden-box"><div class="big">${n}</div><div class="t">${n === 1 ? 'response' : 'responses'} so far</div><div class="h">Results are hidden. Press R to reveal.</div></div>`; }
-const titleHTML = s => `<h1 class="s-title">${esc(s.title || ' ')}</h1>`;
+const titleHTML = (s, mw) => `<h1 class="s-title"${mw ? ` style="max-width:${mw}px"` : ''}>${esc(s.title || ' ')}</h1>`;
+const fitWrap = (html, o = {}) => `<div class="fitbox"${o.c ? ' data-c="1"' : ''}><div class="fitin" style="--k:${o.k || 1}">${html}</div></div>`;
 
 function barsHTML(s, a, opts = {}) {
   const base = Math.max(1, a.resp);
@@ -470,12 +496,13 @@ function quizTiles(s, mark) {
 
 function slideBody(s, ctx) {
   const a = (() => { switch (s.type) { case 'mc': case 'quiz': return aggChoice(s, ctx.data); case 'scale': return aggScale(s, ctx.data); case 'rank': return aggRank(s, ctx.data); default: return null; } })();
+  const N = s.options ? s.options.length : 0;
   switch (s.type) {
     case 'title':
       return `<div class="inner center"><h1 class="s-hero">${esc(s.title)}</h1><div class="s-sub">${esc(s.subtitle || '')}</div></div>`;
     case 'content': {
       const lines = String(s.body || '').split('\n').map(x => x.trim()).filter(Boolean);
-      return `<div class="inner">${titleHTML(s)}<div class="cols"><div class="l"><ul class="bullets">${lines.map(l => `<li>${esc(l)}</li>`).join('')}</ul></div>${s.image ? `<img src="${esc(s.image)}" alt="">` : ''}</div></div>`;
+      return `<div class="inner">${titleHTML(s)}${fitWrap(`<div class="cols"><div class="l"><ul class="bullets">${lines.map(l => `<li>${esc(l)}</li>`).join('')}</ul></div>${s.image ? `<img src="${esc(s.image)}" alt="">` : ''}</div>`, { c: 1 })}</div>`;
     }
     case 'image': {
       const img = s.image ? `<img src="${esc(s.image)}" alt="" style="object-fit:${s.fit === 'cover' ? 'cover' : 'contain'}">` : `<div class="imgph">Add an image in the panel on the right</div>`;
@@ -486,47 +513,78 @@ function slideBody(s, ctx) {
       let body;
       if (ctx.hideNow) body = hiddenBox(a.resp);
       else body = s.chart === 'columns' ? columnsHTML(s, a) : s.chart === 'donut' ? donutHTML(s, a) : barsHTML(s, a);
-      return `<div class="inner">${titleHTML(s)}<div class="s-body">${body}</div></div>`;
+      return `<div class="inner">${titleHTML(s)}${fitWrap(body, { c: 1 })}</div>`;
     }
     case 'quiz': {
-      const ph = ctx.isLive ? ctx.phase : null;
-      const lim = +s.limit || 20;
+      const ph = ctx.isLive ? ctx.phase : null, lim = +s.limit || 20;
+      const showRes = ctx.mode === 'pdf' && ctx.demo;
       let body, meta = '';
-      if (!ctx.isLive) body = quizTiles(s, true);
-      else if (ph === 'ready') { body = quizTiles(s, false); meta = `<div class="qmeta"><div class="qtimer" style="--p:100%"><span>${lim}</span></div></div>`; }
-      else if (ph === 'open') { body = quizTiles(s, false); meta = `<div class="qmeta"><div class="qcount"><b>${a.resp}</b>answered</div><div class="qtimer" data-timer style="--p:100%"><span>${lim}</span></div></div>`; }
-      else if (ph === 'closed') body = `<div class="empty">Time's up…</div>`;
-      else {
+      if (showRes || (ctx.isLive && ph === 'revealed')) {
         const right = s.options.reduce((acc, o, i) => acc + (o.correct ? a.counts[i] : 0), 0);
         meta = `<div class="qmeta"><div class="qcount"><b>${a.resp ? Math.round(100 * right / a.resp) : 0}%</b>got it right</div></div>`;
-        body = `<div class="s-body">${barsHTML(s, a, { reveal: true })}</div>`;
+        body = fitWrap(barsHTML(s, a, { reveal: true }), { c: 1 });
       }
-      return `<div class="inner">${titleHTML(s)}${body}</div>${meta}`;
+      else if (!ctx.isLive) body = fitWrap(quizTiles(s, ctx.mode !== 'pdf'), { c: 1 });
+      else if (ph === 'ready') { body = fitWrap(quizTiles(s, false), { c: 1 }); meta = `<div class="qmeta"><div class="qtimer" style="--p:100%"><span>${lim}</span></div></div>`; }
+      else if (ph === 'open') { body = fitWrap(quizTiles(s, false), { c: 1 }); meta = `<div class="qmeta"><div class="qcount"><b>${a.resp}</b>answered</div><div class="qtimer" data-timer style="--p:100%"><span>${lim}</span></div></div>`; }
+      else body = fitWrap(`<div class="empty">Time's up…</div>`, { c: 1 });
+      return `<div class="inner">${titleHTML(s, 1000)}${body}</div>${meta}`;
     }
-    case 'cloud': return `<div class="inner">${titleHTML(s)}${ctx.hideNow ? `<div class="s-body">${hiddenBox(ctx.count)}</div>` : cloudHTML(aggWords(ctx.data))}</div>`;
-    case 'open': return `<div class="inner">${titleHTML(s)}${ctx.hideNow ? `<div class="s-body">${hiddenBox(ctx.count)}</div>` : cardsHTML(flat(ctx.data), ctx)}</div>`;
-    case 'scale': return `<div class="inner">${titleHTML(s)}${ctx.hideNow ? `<div class="s-body">${hiddenBox(a.resp)}</div>` : scaleHTML(s, a)}</div>`;
-    case 'rank': return `<div class="inner">${titleHTML(s)}<div class="s-body">${ctx.hideNow ? hiddenBox(a.resp) : rankHTML(a)}</div></div>`;
-    case 'qa': return `<div class="inner">${titleHTML(s)}${qaHTML(aggQA(ctx.data), ctx)}</div>`;
-    case 'leaderboard': return `<div class="inner">${titleHTML(s)}<div class="s-body">${leaderHTML(s, ctx.totals)}</div></div>`;
+    case 'cloud': return `<div class="inner">${titleHTML(s)}${fitWrap(ctx.hideNow ? hiddenBox(ctx.count) : cloudHTML(aggWords(ctx.data)), { c: 1 })}</div>`;
+    case 'open': return `<div class="inner">${titleHTML(s)}${fitWrap(ctx.hideNow ? hiddenBox(ctx.count) : cardsHTML(flat(ctx.data), ctx), { c: ctx.hideNow })}</div>`;
+    case 'scale': return `<div class="inner">${titleHTML(s)}${fitWrap(ctx.hideNow ? hiddenBox(a.resp) : scaleHTML(s, a), { c: 1 })}</div>`;
+    case 'rank': return `<div class="inner">${titleHTML(s)}${fitWrap(ctx.hideNow ? hiddenBox(a.resp) : rankHTML(a), { c: 1 })}</div>`;
+    case 'qa': return `<div class="inner">${titleHTML(s)}${fitWrap(qaHTML(aggQA(ctx.data), ctx))}</div>`;
+    case 'leaderboard': return `<div class="inner">${titleHTML(s)}${fitWrap(leaderHTML(s, ctx.totals), { c: 1 })}</div>`;
   }
   return '';
 }
 function footerHTML(s, ctx) {
   if (s.type === 'image') return '';
-  const wanted = ctx.mode === 'thumb' ? false : (ctx.isLive || (ctx.mode === 'edit' && isInteractive(s)));
-  if (!wanted || s.type === 'leaderboard' && !ctx.isLive) return '';
+  const wanted = ctx.isLive || (['edit', 'pdf', 'thumb'].includes(ctx.mode) && isInteractive(s));
+  if (!wanted || (s.type === 'leaderboard' && !ctx.isLive)) return '';
   const code = live ? live.code : '······';
   const link = live ? joinLink(live.code) : JOIN_URL;
-  return `<div class="joinbar"><span>Join at <b>${esc(joinHost() || 'your-site.github.io')}</b></span><span class="code">${esc(code)}</span>${ctx.isLive ? `<span class="stat">${ctx.joined} joined</span>` : ''}</div>${qrSVG(link) ? `<div class="jb-qr">${qrSVG(link)}</div>` : ''}`;
+  const qr = qrSVG(link);
+  return `<div class="joinbar"><span>Join using the QR code</span><span class="code">${esc(code)}</span>${ctx.isLive ? `<span class="stat">${ctx.joined} joined</span>` : ''}</div>${qr ? `<div class="jb-qr">${qr}</div>` : ''}`;
 }
 function slideHTML(s, ctx) {
-  return `<div class="slide ${ctx.anim ? 'anim' : ''}" data-theme="${esc(deck.theme)}"><div class="deco"></div>${slideBody(s, ctx)}${footerHTML(s, ctx)}</div>`;
+  const foot = footerHTML(s, ctx);
+  return `<div class="slide ${ctx.anim ? 'anim' : ''} ${foot ? 'hasjoin' : ''}" data-theme="${esc(deck.theme)}"><div class="deco"></div>${slideBody(s, ctx)}${foot}</div>`;
+}
+
+/* ---- fit engine: text shrinks (never the graphic's shape) so nothing overflows or hides ---- */
+function fitText(t, lines) {
+  t.style.fontSize = '';
+  const cs = getComputedStyle(t), base = parseFloat(cs.fontSize) || 48, lh = parseFloat(cs.lineHeight) || base * 1.2;
+  const maxH = lines * lh; let size = base;
+  while (t.scrollHeight > maxH + 2 && size > 24) { size -= 2; t.style.fontSize = size + 'px'; }
+}
+function fitSlide(slide) {
+  if (!slide || !slide.querySelectorAll) return;
+  slide.querySelectorAll('.s-title').forEach(t => fitText(t, 2));
+  slide.querySelectorAll('.s-hero').forEach(t => fitText(t, 3));
+  slide.querySelectorAll('.s-sub').forEach(t => fitText(t, 2));
+  slide.querySelectorAll('.fitbox').forEach(box => {
+    const inn = box.firstElementChild, W = box.clientWidth, H = box.clientHeight;
+    if (!inn || !W || !H) return;
+    inn.style.transform = 'none';
+    const fits = sc => { inn.style.width = (100 / sc) + '%'; return inn.offsetHeight * sc <= H + .5 && inn.scrollWidth <= inn.clientWidth + 1; };
+    let sc = 1;
+    if (!fits(1)) {                       // find the largest scale that still fits
+      let lo = .15, hi = 1;
+      for (let i = 0; i < 10; i++) { const mid = (lo + hi) / 2; if (fits(mid)) lo = mid; else hi = mid; }
+      sc = lo; fits(sc);
+    }
+    const ty = box.dataset.c ? Math.max(0, (H - inn.offsetHeight * sc) / 2) : 0;
+    inn.style.transform = `translateY(${ty}px) scale(${sc})`;
+  });
 }
 function fit(frame) {
   const inner = frame.firstElementChild; if (!inner) return;
   const k = Math.min(frame.clientWidth / 1600, frame.clientHeight / 900);
   inner.style.transform = `translate(-50%,-50%) scale(${k || 1})`;
+  fitSlide(inner);
 }
 function mount(frame, s, ctx) { frame.innerHTML = slideHTML(s, ctx); fit(frame); }
 const ro = new ResizeObserver(es => es.forEach(e => fit(e.target)));
@@ -541,7 +599,7 @@ function renderList() {
 }
 function updateThumb(i) {
   const t = $(`.thumb[data-i="${i}"] .tframe`); if (!t) return;
-  t.innerHTML = slideHTML(deck.slides[i], ctxFor(deck.slides[i], 'thumb')); t.firstElementChild.style.transform = `translate(-50%,-50%) scale(${170 / 1600})`;
+  t.innerHTML = slideHTML(deck.slides[i], ctxFor(deck.slides[i], 'thumb')); t.firstElementChild.style.transform = `translate(-50%,-50%) scale(${170 / 1600})`; fitSlide(t.firstElementChild);
 }
 $('#thumbs').addEventListener('click', e => {
   const t = e.target.closest('.thumb'); if (!t) return; const i = +t.dataset.i, act = e.target.closest('button')?.dataset.act;
@@ -865,6 +923,55 @@ document.addEventListener('keydown', e => {
   else if (k === 'Escape') exitPresent();
 });
 window.addEventListener('resize', () => { if (present) fit($('#stageFrame')); });
+
+
+/* ---------------- PDF export (one page per slide, via the browser's print engine) ---------------- */
+function pdfDialog() {
+  const pop = document.createElement('div'); pop.className = 'pop';
+  pop.innerHTML = `<div class="box" style="width:min(520px,92vw)"><h3>Export slides as PDF</h3>
+    <p class="hint" style="margin:0 0 14px">Every slide becomes one page. Your browser's print window will open: set <b>Destination</b> to <b>Save as PDF</b> and <b>Margins</b> to <b>None</b>, then save.</p>
+    <div style="display:grid;gap:8px">
+      <button class="btn primary" data-m="demo">With example responses</button>
+      <button class="btn" data-m="blank">Blank (no responses)</button>
+      <button class="btn ghost" data-m="x">Cancel</button>
+    </div></div>`;
+  pop.onclick = e => { const b = e.target.closest('button[data-m]'); if (b) { pop.remove(); if (b.dataset.m !== 'x') exportPDF(b.dataset.m === 'demo'); } else if (e.target === pop) pop.remove(); };
+  document.body.append(pop);
+}
+async function exportPDF(demo) {
+  $('#printRoot')?.remove();
+  const root = document.createElement('div'); root.id = 'printRoot';
+  root.innerHTML = deck.slides.map(s => `<div class="pslide">${slideHTML(s, ctxFor(s, 'pdf', demo))}</div>`).join('');
+  document.body.append(root);
+  try { await document.fonts?.ready; } catch { }
+  $$('.slide', root).forEach(fitSlide);
+  await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+  const done = () => { root.remove(); window.removeEventListener('afterprint', done); };
+  window.addEventListener('afterprint', done);
+  window.print();
+}
+window.__exportPDF = exportPDF;
+$('#btnPdf').onclick = pdfDialog;
+
+/* re-fit once web fonts have loaded, so measurements use the real font */
+const refitAll = () => $$('.slide').forEach(fitSlide);
+document.fonts?.ready.then(refitAll); document.fonts?.addEventListener?.('loadingdone', refitAll);
+
+/* ---- tell people when a new version has been published ---- */
+(() => {
+  const SELF = location.pathname + location.search;
+  const hash = t => { let x = 2166136261; for (let i = 0; i < t.length; i++) { x ^= t.charCodeAt(i); x = Math.imul(x, 16777619); } return x >>> 0; };
+  const grab = async mode => { const r = await fetch(SELF, { cache: mode }); if (!r.ok) throw new Error(r.status); return hash(await r.text()); };
+  let base = null, shown = false;
+  const check = async () => {
+    if (shown) return;
+    try { if (base === null) base = await grab('force-cache'); const now = await grab('no-store'); if (now !== base) { shown = true; const b = document.getElementById('updBar'); if (b) b.hidden = false; } } catch (e) { }
+  };
+  check(); setInterval(check, 60000);
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') check(); });
+  window.addEventListener('focus', check);
+  document.getElementById('updBtn')?.addEventListener('click', () => location.reload());
+})();
 
 renderAll(); updateLiveUI();
 if (!CONFIGURED) setTimeout(() => toast('Editor ready. Add your Firebase details to firebase-config.js to go live (see README.md).', 7000), 600);
